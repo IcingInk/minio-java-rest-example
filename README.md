@@ -9,6 +9,12 @@ REST based apps are often written to service mobile and web clients. PhotoAPI Se
 
 The full code is available at:  [https://github.com/minio/minio-java-rest-example](https://github.com/minio/minio-java-rest-example), and is released under Apache 2.0 License.
 
+## 0. IE. adding
+See the https://github.com/IcingInk/minioTesting project for starting up the server with the correct credentials.
+
+http://localhost:8080/myalbum/minio/photoservice/list
+
+
 ##  1. Dependencies
 
 We will use Eclipse IDE for Java EE Developers to build this example and include Jersey, JSON and asm packages.
