@@ -35,40 +35,39 @@ import io.minio.messages.Item;
 import io.minio.errors.MinioException;
 
 public class AlbumDao {
-    public List<Album> listAlbums() throws NoSuchAlgorithmException,
-            IOException, InvalidKeyException, XmlPullParserException, MinioException {
+	public List<Album> listAlbums()
+			throws NoSuchAlgorithmException, IOException, InvalidKeyException, XmlPullParserException, MinioException {
 
-        List<Album> list = new ArrayList<Album>();
-        final String minioBucket = "albums";
+		List<Album> list = new ArrayList<Album>();
+		final String minioBucket = "album";
+		final String accessKey = "minio";
+		final String secretKey = "minio123";
+		final String ipPort = "http://172.19.0.1:9001";
+		 MinioClient minioClient = new MinioClient(ipPort, accessKey, secretKey);	
 
-        // Initialize minio client object.
-        MinioClient minioClient = new MinioClient("play.minio.io", 9000,
-                                                  "Q3AM3UQ867SPQQA43P2F",
-                                                  "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG");
+		// List all objects.
+		Iterable<Result<Item>> myObjects = minioClient.listObjects(minioBucket);
 
-        // List all objects.
-        Iterable<Result<Item>> myObjects = minioClient.listObjects(minioBucket);
+		// Iterate over each elements and set album url.
+		for (Result<Item> result : myObjects) {
+			Item item = result.get();
+			System.out.println(item.lastModified() + ", " + item.size() + ", " + item.objectName());
 
-        // Iterate over each elements and set album url.
-        for (Result<Item> result : myObjects) {
-            Item item = result.get();
-            System.out.println(item.lastModified() + ", " + item.size() + ", " + item.objectName());
+			// Generate a presigned URL which expires in a day
+			String url = minioClient.presignedGetObject(minioBucket, item.objectName(), 60 * 60 * 24);
 
-            // Generate a presigned URL which expires in a day
-            url = minioClient.presignedGetObject(minioBucket, item.objectName(), 60 * 60 * 24);
-             
-            // Create a new Album Object
-            Album album = new Album();
-            
-            // Set the presigned URL in the album object
-            album.setUrl(url);
-            
-            // Add the album object to the list holding Album objects
-            list.add(album);
-            
-        }
+			// Create a new Album Object
+			Album album = new Album();
 
-        // Return list of albums.
-        return list;
-    }
+			// Set the presigned URL in the album object
+			album.setUrl(url);
+
+			// Add the album object to the list holding Album objects
+			list.add(album);
+
+		}
+
+		// Return list of albums.
+		return list;
+	}
 }
