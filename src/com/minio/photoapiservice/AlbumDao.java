@@ -18,19 +18,16 @@ package com.minio.photoapiservice;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.InvalidKeyException;
 
-import org.json.JSONArray;
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.minio.photoapiservice.util.Client;
 
 import io.minio.MinioClient;
 import io.minio.Result;
-import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import io.minio.errors.MinioException;
 
@@ -39,11 +36,15 @@ public class AlbumDao {
 			throws NoSuchAlgorithmException, IOException, InvalidKeyException, XmlPullParserException, MinioException {
 
 		List<Album> list = new ArrayList<Album>();
+		
 		final String minioBucket = "album";
-		final String accessKey = "minio";
-		final String secretKey = "minio123";
-		final String ipPort = "http://172.19.0.1:9001";
-		 MinioClient minioClient = new MinioClient(ipPort, accessKey, secretKey);	
+//		final String accessKey = "minio";
+//		final String secretKey = "minio123";
+//		final String ipPort = "http://172.19.0.1:9001";
+//		
+//		final MinioClient minioClient = new MinioClient(ipPort, accessKey, secretKey);	
+		Client client = Client.getInstance();
+		MinioClient minioClient = client.minioClient;	
 
 		// List all objects.
 		Iterable<Result<Item>> myObjects = minioClient.listObjects(minioBucket);
