@@ -15,6 +15,29 @@ See the https://github.com/IcingInk/minioTesting project for starting up the ser
 http://localhost:8080/myalbum/minio/photoservice/list
 
 
+Copy the images to the mc-container(container name is 'jovial_ptolemy') using the minio-client
+
+  * ~/repos/minio docker cp /home/ingimar/Pictures/private/1-soccer-team.png jovial_ptolemy:/tmp
+  * ~/repos/minio docker cp /home/ingimar/Pictures/private/2-kajak_me.jpg jovial_ptolemy:/tmp
+  * ~/repos/minio docker cp /home/ingimar/Pictures/private/3.blaming_mats.jpeg jovial_ptolemy:/tmp
+  * ~/repos/minio docker cp /home/ingimar/Pictures/private/4.throwback.jpeg jovial_ptolemy:/tmp
+
+Log into the container and store the pictures to the minio-bucket
+
+  * mc cp /tmp/1-soccer-team.png minio/album/
+  * mc cp /tmp/2-kajak_me.jpg minio/album/
+  * mc cp /tmp/3.blaming_mats.jpeg minio/album/ 
+  * mc cp /tmp/4.throwback.jpeg minio/album/ 
+ 	
+ 	and check the bucket 'album'
+ 	mc ls minio/album
+ 	
+***
+### examples here
+https://github.com/minio/minio-java/tree/master/examples
+
+ 	
+
 ##  1. Dependencies
 
 We will use Eclipse IDE for Java EE Developers to build this example and include Jersey, JSON and asm packages.
